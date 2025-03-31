@@ -127,10 +127,10 @@ function atualizarContador() {
         dias--;
     }
 
-    // Ajuste de dias, contando os dias reais do mês anterior
+    // Ajuste de dias levando em conta meses com diferentes quantidades de dias
     if (dias < 0) {
-        let mesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
-        dias += mesAnterior;
+        let ultimoDiaMesPassado = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+        dias += ultimoDiaMesPassado;
         meses--;
     }
 
