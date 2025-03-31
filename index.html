@@ -102,45 +102,51 @@
     </audio>
     
 <script>
-    function atualizarContador() {
-        let dataInicio = new Date("2024-11-08T18:49:00");
-        let agora = new Date();
-        
-        let anos = agora.getFullYear() - dataInicio.getFullYear();
-        let meses = agora.getMonth() - dataInicio.getMonth();
-        let dias = agora.getDate() - dataInicio.getDate();
-        let horas = agora.getHours() - dataInicio.getHours();
-        let minutos = agora.getMinutes() - dataInicio.getMinutes();
-        let segundos = agora.getSeconds() - dataInicio.getSeconds();
-        
-        if (segundos < 0) {
-            segundos += 60;
-            minutos--;
-        }
-        if (minutos < 0) {
-            minutos += 60;
-            horas--;
-        }
-        if (horas < 0) {
-            horas += 24;
-            dias--;
-        }
-        if (dias < 0) {
-            let ultimoMes = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
-            dias += ultimoMes;
-            meses--;
-        }
-        if (meses < 0) {
-            meses += 12;
-            anos--;
-        }
-        
-        document.getElementById("contador").innerText = 
-            `Já estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos! ❤️`;
+function atualizarContador() {
+    let dataInicio = new Date("2024-11-08T19:00:00");
+    let agora = new Date();
+
+    let anos = agora.getFullYear() - dataInicio.getFullYear();
+    let meses = agora.getMonth() - dataInicio.getMonth();
+    let dias = agora.getDate() - dataInicio.getDate();
+    let horas = agora.getHours() - dataInicio.getHours();
+    let minutos = agora.getMinutes() - dataInicio.getMinutes();
+    let segundos = agora.getSeconds() - dataInicio.getSeconds();
+
+    // Ajuste para segundos negativos
+    if (segundos < 0) {
+        segundos += 60;
+        minutos--;
     }
-    
-    atualizarContador();
-    setInterval(atualizarContador, 1000);
+    // Ajuste para minutos negativos
+    if (minutos < 0) {
+        minutos += 60;
+        horas--;
+    }
+    // Ajuste para horas negativas
+    if (horas < 0) {
+        horas += 24;
+        dias--;
+    }
+    // Ajuste para dias negativos, considerando o mês anterior
+    if (dias < 0) {
+        let ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+        dias += ultimoDiaMesAnterior;
+        meses--;
+    }
+    // Ajuste para meses negativos
+    if (meses < 0) {
+        meses += 12;
+        anos--;
+    }
+
+    document.getElementById("contador").innerText =
+        `Já estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos! ❤️`;
+}
+
+atualizarContador();
+setInterval(atualizarContador, 1000);
+
 
     let links = [
         "https://i.imgur.com/7zOxA4B.jpg",
