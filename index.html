@@ -103,26 +103,42 @@
     
 <script>
 function atualizarContador() {
-    let dataInicio = new Date("2024-11-08T19:00:00");
+    let dataInicio = new Date(2024, 10, 8, 19, 0, 0); // Novembro é mês 10 no JS (começa em 0)
     let agora = new Date();
 
-    let diferencaMs = agora - dataInicio;
-    let segundosTotais = Math.floor(diferencaMs / 1000);
+    let anos = agora.getFullYear() - dataInicio.getFullYear();
+    let meses = agora.getMonth() - dataInicio.getMonth();
+    let dias = agora.getDate() - dataInicio.getDate();
+    let horas = agora.getHours() - dataInicio.getHours();
+    let minutos = agora.getMinutes() - dataInicio.getMinutes();
+    let segundos = agora.getSeconds() - dataInicio.getSeconds();
 
-    let anos = Math.floor(segundosTotais / (60 * 60 * 24 * 365));
-    segundosTotais %= (60 * 60 * 24 * 365);
+    // Ajuste de segundos e minutos
+    if (segundos < 0) {
+        segundos += 60;
+        minutos--;
+    }
+    if (minutos < 0) {
+        minutos += 60;
+        horas--;
+    }
+    if (horas < 0) {
+        horas += 24;
+        dias--;
+    }
 
-    let meses = Math.floor(segundosTotais / (60 * 60 * 24 * 30.44)); // Considera a média de dias por mês
-    segundosTotais %= Math.floor(60 * 60 * 24 * 30.44);
+    // Ajuste de dias, contando os dias reais do mês anterior
+    if (dias < 0) {
+        let mesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+        dias += mesAnterior;
+        meses--;
+    }
 
-    let dias = Math.floor(segundosTotais / (60 * 60 * 24));
-    segundosTotais %= (60 * 60 * 24);
-
-    let horas = Math.floor(segundosTotais / (60 * 60));
-    segundosTotais %= (60 * 60);
-
-    let minutos = Math.floor(segundosTotais / 60);
-    let segundos = segundosTotais % 60;
+    // Ajuste de meses
+    if (meses < 0) {
+        meses += 12;
+        anos--;
+    }
 
     document.getElementById("contador").innerText =
         `Já estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos! ❤️`;
