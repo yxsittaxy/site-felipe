@@ -106,39 +106,23 @@ function atualizarContador() {
     let dataInicio = new Date("2024-11-08T19:00:00");
     let agora = new Date();
 
-    let anos = agora.getFullYear() - dataInicio.getFullYear();
-    let meses = agora.getMonth() - dataInicio.getMonth();
-    let dias = agora.getDate() - dataInicio.getDate();
-    let horas = agora.getHours() - dataInicio.getHours();
-    let minutos = agora.getMinutes() - dataInicio.getMinutes();
-    let segundos = agora.getSeconds() - dataInicio.getSeconds();
+    let diferencaMs = agora - dataInicio;
+    let segundosTotais = Math.floor(diferencaMs / 1000);
 
-    // Ajuste para segundos negativos
-    if (segundos < 0) {
-        segundos += 60;
-        minutos--;
-    }
-    // Ajuste para minutos negativos
-    if (minutos < 0) {
-        minutos += 60;
-        horas--;
-    }
-    // Ajuste para horas negativas
-    if (horas < 0) {
-        horas += 24;
-        dias--;
-    }
-    // Ajuste para dias negativos, considerando o mês anterior
-    if (dias < 0) {
-        let ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
-        dias += ultimoDiaMesAnterior;
-        meses--;
-    }
-    // Ajuste para meses negativos
-    if (meses < 0) {
-        meses += 12;
-        anos--;
-    }
+    let anos = Math.floor(segundosTotais / (60 * 60 * 24 * 365));
+    segundosTotais %= (60 * 60 * 24 * 365);
+
+    let meses = Math.floor(segundosTotais / (60 * 60 * 24 * 30.44)); // Considera a média de dias por mês
+    segundosTotais %= Math.floor(60 * 60 * 24 * 30.44);
+
+    let dias = Math.floor(segundosTotais / (60 * 60 * 24));
+    segundosTotais %= (60 * 60 * 24);
+
+    let horas = Math.floor(segundosTotais / (60 * 60));
+    segundosTotais %= (60 * 60);
+
+    let minutos = Math.floor(segundosTotais / 60);
+    let segundos = segundosTotais % 60;
 
     document.getElementById("contador").innerText =
         `Já estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos! ❤️`;
@@ -146,8 +130,6 @@ function atualizarContador() {
 
 atualizarContador();
 setInterval(atualizarContador, 1000);
-
-
     let links = [
         "https://i.imgur.com/7zOxA4B.jpg",
         "https://i.imgur.com/lyjDlOV.jpg",
