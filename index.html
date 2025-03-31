@@ -102,32 +102,47 @@
         Seu navegador não suporta áudio.
     </audio>
     
-    <script>
-        function atualizarContador() {
-            let dataInicio = new Date("2024-11-08T18:49:00");
-            let agora = new Date();
-            let diferenca = agora - dataInicio;
-            
-            let segundosTotais = Math.floor(diferenca / 1000);
-            let minutosTotais = Math.floor(segundosTotais / 60);
-            let horasTotais = Math.floor(minutosTotais / 60);
-            let diasTotais = Math.floor(horasTotais / 24);
-            let mesesTotais = Math.floor(diasTotais / 30.44);
-            let anosTotais = Math.floor(mesesTotais / 12);
-            
-            let dias = diasTotais % 30.44;
-            let meses = mesesTotais % 12;
-            let horas = horasTotais % 24;
-            let minutos = minutosTotais % 60;
-            let segundos = segundosTotais % 60;
-            
-            document.getElementById("contador").innerText = 
-                `Já estamos juntos há ${anosTotais} anos, ${meses} meses, ${Math.floor(dias)} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos! ❤️`;
+<script>
+    function atualizarContador() {
+        let dataInicio = new Date("2023-11-08T18:49:00"); // Data corrigida para 2023
+        let agora = new Date();
+        
+        let anos = agora.getFullYear() - dataInicio.getFullYear();
+        let meses = agora.getMonth() - dataInicio.getMonth();
+        let dias = agora.getDate() - dataInicio.getDate();
+        let horas = agora.getHours() - dataInicio.getHours();
+        let minutos = agora.getMinutes() - dataInicio.getMinutes();
+        let segundos = agora.getSeconds() - dataInicio.getSeconds();
+        
+        if (segundos < 0) {
+            segundos += 60;
+            minutos--;
+        }
+        if (minutos < 0) {
+            minutos += 60;
+            horas--;
+        }
+        if (horas < 0) {
+            horas += 24;
+            dias--;
+        }
+        if (dias < 0) {
+            let ultimoMes = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+            dias += ultimoMes;
+            meses--;
+        }
+        if (meses < 0) {
+            meses += 12;
+            anos--;
         }
         
-        atualizarContador();
-        setInterval(atualizarContador, 1000);
-        
+        document.getElementById("contador").innerText = 
+            `Já estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos! ❤️`;
+    }
+    
+    atualizarContador();
+    setInterval(atualizarContador, 1000);
+</script>
         let links = [
             "https://imgur.com/7zOxA4B.jpg",  
             "https://imgur.com/lyjDlOV.jpg",  
